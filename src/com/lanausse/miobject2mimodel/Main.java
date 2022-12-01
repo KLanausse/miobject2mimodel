@@ -14,9 +14,8 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
         if (args.length != 2){
-            //Help Docs
+            //Help 'Docs'
             System.out.println("Example: miobject2mimodel.jar object.miobject output.mimodel");
         }else {
             System.out.println("Input: " + args[0]);
