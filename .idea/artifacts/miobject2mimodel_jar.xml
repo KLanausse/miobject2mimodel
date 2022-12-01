@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="miobject2mimodel:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/miobject2mimodel_jar</output-path>
+    <root id="archive" name="miobject2mimodel.jar">
+      <element id="module-output" name="miobject2mimodel" />
+    </root>
+  </artifact>
+</component>
