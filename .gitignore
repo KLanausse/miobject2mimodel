@@ -24,3 +24,6 @@ hs_err_pid*
 replay_pid*
 Default texture.png
 *.mbbackup1
+*.mbbackup2
+*.mbbackup3
+out/
