@@ -97,14 +97,44 @@ public class Main {
                 if (firstKeyframe.get("POS_Z") != null)
                     POS_Z = ((Number)firstKeyframe.get("POS_Z")).doubleValue();
 
-                newPart.setValue("Position", new double[]{POS_X, POS_Y, POS_Z});
+                newPart.setValue("position", new double[]{POS_X, POS_Y, POS_Z});
 
-                //Color
-                if ( ((JSONObject)((JSONObject)object.get("keyframes")).get("0")).get("RGB_MUL").toString() != null)
-                    newPart.setColorBlend( ((JSONObject)((JSONObject)object.get("keyframes")).get("0")).get("RGB_MUL").toString() );
+                    //Scale
+                double SCA_X = 0;
+                double SCA_Y = 0;
+                double SCA_Z = 0;
 
-                //objets
-                if (object.get("type").toString().equals("cube") || object.get("type").toString().equals("sphere"))
+
+                if (firstKeyframe.get("SCA_X") != null)
+                    SCA_X = ((Number)firstKeyframe.get("SCA_X")).doubleValue();
+                if (firstKeyframe.get("SCA_Y") != null)
+                    SCA_Y = ((Number)firstKeyframe.get("SCA_Y")).doubleValue();
+                if (firstKeyframe.get("SCA_Z") != null)
+                    SCA_Z = ((Number)firstKeyframe.get("SCA_Z")).doubleValue();
+
+                newPart.setValue("scale", new double[]{SCA_X, SCA_Y, SCA_Z});
+
+                    //Rotation
+                double ROT_X = 0;
+                double ROT_Y = 0;
+                double ROT_Z = 0;
+
+
+                if (firstKeyframe.get("ROT_X") != null)
+                    ROT_X = ((Number)firstKeyframe.get("ROT_X")).doubleValue();
+                if (firstKeyframe.get("ROT_Y") != null)
+                    ROT_Y = ((Number)firstKeyframe.get("ROT_Y")).doubleValue();
+                if (firstKeyframe.get("ROT_Z") != null)
+                    ROT_Z = ((Number)firstKeyframe.get("ROT_Z")).doubleValue();
+
+                newPart.setValue("rotation", new double[]{ROT_X, ROT_Y, ROT_Z});
+
+                    //Color
+                if ( ((JSONObject)((JSONObject)object.get("keyframes")).get("0")).get("RGB_MUL") != null)
+                    newPart.setValue("color_blend", ((JSONObject)((JSONObject)object.get("keyframes")).get("0")).get("RGB_MUL").toString());
+
+                //Append shape to part
+                if (object.get("type").toString().equals("cube") || object.get("type").toString().equals("sphere") || object.get("type").toString().equals("cone") || object.get("type").toString().equals("cylinder"))
                     newPart.addShape(new Shape());
 
                 convertedModel.addPart(newPart); //Append to model
