@@ -27,3 +27,6 @@ Default texture.png
 *.mbbackup2
 *.mbbackup3
 out/
+*.miobject
+*.mimodel
+*.miobject
