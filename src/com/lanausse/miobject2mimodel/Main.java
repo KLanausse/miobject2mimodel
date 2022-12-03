@@ -13,6 +13,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Main {
@@ -71,17 +73,26 @@ public class Main {
             System.out.println("Timeline:");
 
             //CREATE PARTS & SHAPES
+            JSONObject partsList = new JSONObject();
+            ArrayList<Part> arr = new ArrayList<Part>(); //TODO: give var a better name
+
             Iterator iterator = timelines.iterator();
             int counter = 0; //To make sure there are no dupe part names
             while (iterator.hasNext()) {
                 JSONObject object = (JSONObject)iterator.next();
                 Part newPart = new Part(object.get("name").toString() + counter, object.get("id").toString());
+                partsList.put(object.get("id").toString(), counter);
+                arr.add(counter, newPart);
                 counter++;
 
                 //Set Properties
                 //TODO: THERE HAS TO BE A BETTER WAY TO DO THIS THAT I HAVEN'T REALISED YET
                 JSONObject firstKeyframe = (JSONObject)parser.parse(((JSONObject)parser.parse(object.get("keyframes").toString())).get("0").toString());
                 System.out.println(firstKeyframe);
+
+                //Parent?
+                if ( object.get("parent") != null)
+                    newPart.setValue("parent", object.get("parent").toString());
 
                     //Position
                 double POS_X = 0;
@@ -130,8 +141,9 @@ public class Main {
                 newPart.setValue("rotation", new double[]{ROT_X, ROT_Y, ROT_Z});
 
                     //Color
-                if ( ((JSONObject)((JSONObject)object.get("keyframes")).get("0")).get("RGB_MUL") != null)
+                if ( firstKeyframe.get("RGB_MUL") != null)
                     newPart.setValue("color_blend", ((JSONObject)((JSONObject)object.get("keyframes")).get("0")).get("RGB_MUL").toString());
+
 
                 //Append shape to part
                 if (object.get("type").toString().equals("cube") || object.get("type").toString().equals("sphere") || object.get("type").toString().equals("cone") || object.get("type").toString().equals("cylinder"))
@@ -139,6 +151,16 @@ public class Main {
 
                 convertedModel.addPart(newPart); //Append to model
             }
+
+            System.out.println();
+
+            //SET THE CORRECT PARENT
+            //TODO: find a better way to parent things
+            for (Part part: arr ) {
+                if (((Number)partsList.get(part.getValue("parent"))) != null)
+                    arr.get( ((Number)partsList.get(part.getValue("parent"))).intValue() ).addPart(part);
+            }
+
         } catch(Exception e) {
             e.printStackTrace();
         }

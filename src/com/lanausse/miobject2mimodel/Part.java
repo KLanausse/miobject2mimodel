@@ -41,7 +41,6 @@ public class Part {
         parts.add(part.JSON());
     }
 
-    //Setters
     @Deprecated
     public void setColorBlend(String hex){
         if (!part.containsKey("color_blend"))
@@ -121,7 +120,12 @@ public class Part {
         part.replace(name, ArrayToJSONArray(value));
     }
 
-
+    //Getters
+    public Object getValue(String name){
+        if (part.containsKey(name))
+            return part.get(name);
+        return null;
+    }
 
     //Functions
         //ArrayToJSONArray
