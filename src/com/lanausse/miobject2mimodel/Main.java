@@ -28,7 +28,7 @@ public class Main {
             System.out.println("Output: "+ args[1]);
 
             Model convertedModel = convert(args[0]);
-            System.out.println(convertedModel);
+            //System.out.println(convertedModel);
             saveToFile(args[1], convertedModel);
         }
     }
@@ -70,7 +70,7 @@ public class Main {
 
             System.out.println("Format: " + format);
             System.out.println("Course: " + createdIn);
-            System.out.println("Timeline:");
+            System.out.println("");
 
             //CREATE PARTS & SHAPES
             JSONObject partsList = new JSONObject();
@@ -88,9 +88,10 @@ public class Main {
                 //Set Properties
                 //TODO: THERE HAS TO BE A BETTER WAY TO DO THIS THAT I HAVEN'T REALISED YET
                 JSONObject firstKeyframe = (JSONObject)parser.parse(((JSONObject)parser.parse(object.get("keyframes").toString())).get("0").toString());
-                System.out.println(firstKeyframe);
+                //System.out.println(firstKeyframe); //Use for debugging
 
                 //Parent?
+                System.out.println(object.get("parent"));
                 if ( object.get("parent") != null)
                     newPart.setValue("parent", object.get("parent").toString());
 
@@ -111,9 +112,9 @@ public class Main {
                 newPart.setValue("position", new double[]{POS_X, POS_Y, POS_Z});
 
                     //Scale
-                double SCA_X = 0;
-                double SCA_Y = 0;
-                double SCA_Z = 0;
+                double SCA_X = 1;
+                double SCA_Y = 1;
+                double SCA_Z = 1;
 
 
                 if (firstKeyframe.get("SCA_X") != null)
@@ -156,9 +157,13 @@ public class Main {
 
             //SET THE CORRECT PARENT
             //TODO: find a better way to parent things
+            //TODO: After this, you need to remake the lists and then parent them again or somehow parrent objects from top to bottom (starting from root)
             for (Part part: arr ) {
-                if (((Number)partsList.get(part.getValue("parent"))) != null)
-                    arr.get( ((Number)partsList.get(part.getValue("parent"))).intValue() ).addPart(part);
+                if (((Number)partsList.get(part.getValue("parent"))) != null) {
+                    System.out.println(partsList.get(part.getValue("parent")));
+                    arr.get(((Number) partsList.get(part.getValue("parent"))).intValue()).addPart(part);
+                }
+
             }
 
         } catch(Exception e) {
