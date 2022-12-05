@@ -4,8 +4,8 @@ package com.lanausse.miobject2mimodel;
  * Version 2: Deprecates "setTexture()",ect. in the Part and Object Class and replaces it with "setValue()"
  *
  * @author Lanausse
- * @version 0.2
- * @since December 2, 2022
+ * @version 0.3
+ * @since December 5, 2022
  */
 
 import org.json.simple.JSONArray;
